@@ -1,0 +1,20 @@
+{{define "css"}}
+<style>
+	.contenedor_root {
+		padding-bottom: 0rem !important;
+	}
+
+	.settings {
+		padding-bottom: 0rem !important;
+	}
+</style>
+
+{{end}} {{define "js"}}
+<script>
+	var URLWS = "{{.URLWS}}";
+	var URLWSA = "{{.URLWSA}}";
+
+	var MatrixID = {{.MatrixID}};
+</script>
+<script src="/static/js/src-min/location_module.js"></script>
+{{end}}

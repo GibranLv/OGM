@@ -1,0 +1,21 @@
+{{ define "css" }}
+  <!--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/css/swiper.css">-->
+  <link rel="stylesheet" href="/static/css/swiper.css">
+  <link rel="stylesheet" href="/static/css/dynamic_graphics.css">
+{{ end }}
+
+{{define "js"}}
+  <script>
+    var URLWS = "{{.URLWS}}";
+    var URLWSA = "{{.URLWSA}}";
+
+    var MatrixID = {{.MatrixID}};
+    var GroupID = {{.GroupID}};
+    var RT = {{.RT}};
+
+  </script>
+  <script src="/static/js/swiper.min.js"></script>
+  <script src="/static/js/js.cookie.min.js"></script>
+  <script src="/static/js/math.min.js"></script>
+  <script src="/static/js/src-min/dynamic_graphics_module.js"></script>
+{{end}}

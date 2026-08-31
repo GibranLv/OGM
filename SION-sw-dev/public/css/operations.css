@@ -1,0 +1,86 @@
+.notes {
+  font-size: 1.05em;
+  padding-top: 8.2em !important;
+  line-height: 1.4em;
+  color: #fff;
+}
+.notes h4 {
+  padding: 0.4em 1em 1em 1em;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+  margin-bottom: -0.3em;
+}
+.notes h4,
+.notes h5 {
+  font-weight: 200;
+}
+.notes h4 i,
+.notes h5 i {
+  font-size: 2em;
+  color: #cccccc;
+}
+.notes .anotaciones {
+  padding: 1em 0;
+}
+.notes .anotaciones .all_notes {
+  padding: 1.0em 1.1em 1em 1.6em;
+  background: rgba(0, 0, 0, 0.45);
+}
+.notes .anotaciones .all_notes table th {
+  text-align: center;
+  font-weight: 300;
+}
+.notes .anotaciones .all_notes table td {
+  text-align: center;
+  padding: 0.19em 0em;
+  font-weight: 200;
+}
+.notes .btn_ttx {
+  margin: 0.7em 0;
+  width: 100%;
+}
+.notes input:not([type]),
+.notes input[type=text]:not(.browser-default),
+.notes input[type=password]:not(.browser-default),
+.notes input[type=email]:not(.browser-default),
+.notes input[type=url]:not(.browser-default),
+.notes input[type=time]:not(.browser-default),
+.notes input[type=date]:not(.browser-default),
+.notes input[type=datetime]:not(.browser-default),
+.notes input[type=datetime-local]:not(.browser-default),
+.notes input[type=tel]:not(.browser-default),
+.notes input[type=number]:not(.browser-default),
+.notes input[type=search]:not(.browser-default),
+.notes textarea.materialize-textarea {
+  color: #fff;
+  width: 97.5% !important;
+  border: 1px solid #e6e6e6;
+  padding: 0 0.5em;
+}
+.notes .breadcumbs {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 2em;
+  padding: 0.7em 0.8em;
+  text-align: right;
+}
+.notes .breadcumbs a {
+  font-weight: 200;
+}
+.notes .breadcumbs .back {
+  text-align: center;
+}
+.notes .pagination {
+  margin-top: 1.6em;
+  text-align: right;
+}
+.notes .pagination li.active a {
+  background: #010938;
+}
+.footerbg {
+  height: 200px;
+  position: absolute;
+  background: url('../images/wave.png') no-repeat center center;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+}

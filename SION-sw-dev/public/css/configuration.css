@@ -1,0 +1,54 @@
+.sion-menu_alt_hide {
+  display: none;
+}
+
+.sion-border-unselect {
+  border: 1px solid !important;
+}
+
+.sion-border-select {
+  border: 1px solid #F44336 !important;
+}
+
+.sion-link {
+  padding: 0px !important;
+  color: #FFFFFF !important;
+}
+
+.sion-content-variable {
+  margin: 5px 0px;
+  border: 1px solid;
+}
+
+.sion-content-variable td {
+  text-align: left !important;
+  padding: 0px 0px !important;
+}
+
+.sion-content-variable td input {
+  margin: 2px 0px 5px 0px !important;
+}
+
+.sion-cu-panel {
+  margin: 15px 5px;
+  padding: 15px 5px;  
+}
+
+#sion-alarms-panel .tab {
+    border-top: 1px solid;
+    border-left: 1px solid;
+    border-right: 1px solid;
+}
+
+#sion-alarms-panel .indicator {
+  display: block !important;
+  background-color: #F44336 !important;
+}
+
+.content-panel {
+  border: 1px solid !important;
+}
+
+.sion-cv-variable {
+  color: #000 !important;
+}

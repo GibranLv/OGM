@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const math = require('mathjs');
+const _ = require('underscore');
+
+const ERROR = 'error';
+
+let args = process.argv
+
+let last = args.length - 1;
+
+if (last > -1) {
+  let expression = args[last]
+
+  if (_.isString(expression)) {
+    try {
+      let value = math.eval(expression);
+      let o = JSON.parse(value)
+      console.log(o);
+
+    } catch(e) {
+      console.log(ERROR);
+    }
+
+    return;
+  }
+}
+
+console.log(ERROR);

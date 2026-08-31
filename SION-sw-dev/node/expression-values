@@ -1,0 +1,57 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const math = require('mathjs');
+const _ = require('underscore');
+
+const ERROR = 'error';
+
+let args = process.argv
+
+let last = args.length - 1;
+
+if (last > -1) {
+  let expressions = args[last];
+
+  if (_.isString(expressions)) {
+    let isJSON = false;
+    let content = false;
+    try {
+      content = JSON.parse(expressions)
+      isJSON = true;
+    } catch (e) {
+      isJSON = false;
+    }
+
+    if (isJSON) {
+      if (_.isArray(content)) {
+        let res = [];
+        for (let i = 0; i < content.length; i++) {
+          let expression = content[i];
+          let value = math.eval(expression);
+          res.push(value)
+        }
+
+        let s = JSON.stringify(res);
+        console.log(s);
+      } else {
+        console.log(ERROR);
+      }
+
+    } else {
+      try {
+        let value = math.eval(expressions);
+        let o = JSON.parse(value)
+        console.log(o);
+
+      } catch (e) {
+        console.log(ERROR);
+      }
+    }
+
+    return;
+  }
+}
+
+console.log(ERROR);

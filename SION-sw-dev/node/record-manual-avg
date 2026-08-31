@@ -1,0 +1,295 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+
+const async = require('async');
+const mysql = require('mysql');
+const _ = require('underscore');
+
+const ERROR = 'error';
+
+let oJSON = {};
+
+try {
+  let src = path.join(__dirname, '..', 'app.config');
+  let data = fs.readFileSync(src);
+  let s = data.toString();
+  oJSON = JSON.parse(s);
+} catch (e) {
+  let src = path.join(__dirname, '..', 'app.config');
+  console.log(src);
+  return
+}
+
+let args = process.argv;
+let last = args.length - 1;
+
+let variablesOut = {};
+
+if (last > -1) {
+
+  let variablesIn = [];
+
+  try {
+    let sJSON = args[last];
+    variablesIn = JSON.parse(sJSON);
+  } catch (e) {
+    console.log(ERROR);
+    return;
+  }
+
+  async.each(variablesIn, (variableIn, next) => {
+
+    let o = {};
+
+    let key = variableIn.key;
+    let where = variableIn.where;
+    let tables = variableIn.tables;
+    let avg = variableIn.avg;
+
+    o[key] = (fun) => {
+      const connection = mysql.createConnection({
+        host: oJSON.DB_HOST_RECODS,
+        user: oJSON.DB_USER_RECODS,
+        password: oJSON.DB_PWD_RECODS,
+        database: oJSON.DB_NAME_RECODS,
+        timezone: 'Z',
+        multipleStatements: true
+      });
+
+      async.waterfall([
+        (fn) => {
+          connection.connect((err) => {
+            if (err) {
+              console.error('error connecting:' + err.stack);
+              fn(true)
+              return;
+            }
+
+            fn();
+            return;
+          });
+        },
+        (fn) => {
+          let rows = [];
+          let results = {};
+
+          async.each(tables, (t, last) => {
+
+            let query = `SELECT * FROM ${t.table} WHERE timestamp >= ? AND timestamp < ? ORDER BY timestamp ASC;`
+
+            connection.query(query, [where.gte, where.lt], (err, res) => {
+              if (err) {
+                results[t.key] = [];
+                last();
+                return;
+              }
+
+              let size = res.length;
+              if (size == 0) {
+                results[t.key] = [];
+                last();
+                return;
+              }
+
+              results[t.key] = res;
+              last();
+              return;
+            });
+
+          }, () => {
+            let size = tables.length;
+            for (let i = 0; i < size; i++) {
+              let res = results[i];
+              rows = rows.concat(res);
+            }
+
+            fn(null, rows)
+          });
+        },
+        (results, fn) => {
+          connection.end(() => {
+            connection.destroy();
+            fn(null, results);
+            return;
+          });
+        }
+      ], (err, results) => {
+        if (err) {
+          fun(null, []);
+          return;
+        }
+
+        if (avg == 0) {
+          fun(null, []);
+          return;
+        }
+
+        let resAvg = [];
+
+        let size = results.length;
+        if (size > 0) {
+
+          let gte = where.gte;
+          gte = gte.replace(' ', 'T');
+          gte = gte + 'Z';
+
+          let firstDate = new Date(gte);
+          let firstTS = firstDate.getTime();
+
+          let first = firstTS;
+          let limit = firstTS + avg;
+
+          let rowMin = false;
+          let rowMax = false;
+
+          let valueAvg = 0;
+          let num = 0;
+
+          let index = 0;
+
+          while (index < size) {
+            const row = results[index];
+            let time = row.timestamp.getTime();
+
+            if (time < limit) {
+              if (rowMin === false) {
+                rowMin = row
+              } else {
+                if (row.value < rowMin.value) {
+                  rowMin = row;
+                }
+              }
+
+              if (rowMax === false) {
+                rowMax = row
+              } else {
+                if (row.value > rowMax.value) {
+                  rowMax = row;
+                }
+              }
+
+              valueAvg = valueAvg + row.value;
+              num = num + 1;
+              index = index + 1;
+
+              if (index == (size - 1)) {
+                let v = valueAvg / num;
+                v = v.toFixed(4)
+                v = parseFloat(v)
+
+                let timestamp = new Date(limit);
+                let rowAvg = { id: 0, v: v, t: timestamp };
+
+                let rows = [];
+
+                rows.push(rowAvg);
+
+                if (rowMax) {
+                  let oMax = { id: rowMax.id, v: rowMax.value, t: rowMax.timestamp };
+                  rows.push(oMax);
+                }
+
+                if (rowMin) {
+                  let oMin = { id: rowMin.id, v: rowMin.value, t: rowMin.timestamp };
+                  rows.push(oMin);
+                }
+
+                rows.sort(sortByTimestamp);
+
+                resAvg = resAvg.concat(rows);
+
+                break;
+              }
+
+            } else {
+              if (num > 0) {
+                let v = valueAvg / num;
+                v = v.toFixed(4);
+                v = parseFloat(v);
+
+                let timestamp = new Date(limit);
+                let rowAvg = { id: 0, v: v, t: timestamp };
+
+                let rows = [];
+
+                rows.push(rowAvg);
+
+                if (rowMax) {
+                  let oMax = { id: rowMax.id, v: rowMax.value, t: rowMax.timestamp };
+                  rows.push(oMax);
+                }
+
+                if (rowMin) {
+                  let oMin = { id: rowMin.id, v: rowMin.value, t: rowMin.timestamp };
+                  rows.push(oMin);
+                }
+
+                rows.sort(sortByTimestamp);
+
+                resAvg = resAvg.concat(rows);
+
+                rowMin = false;
+                rowMax = false;
+                num = 0;
+                valueAvg = 0;
+                index = index + 1;
+              }
+
+              first = limit
+              limit = limit + avg;
+            }
+          }
+        }
+
+        fun(null, resAvg);
+        return;
+      });
+    };
+
+    if (_.isEmpty(o)) {
+      variablesOut[key] = [];
+      next();
+      return;
+    }
+
+    async.parallel(o, (err, results) => {
+      variablesOut[key] = results[key];
+      next();
+      return;
+    });
+
+  }, () => {
+    let variables = [];
+    for (const key in variablesOut) {
+      if (variablesOut.hasOwnProperty(key)) {
+        const records = variablesOut[key];
+        let o = {
+          variable: key,
+          records: records
+        };
+        variables.push(o);
+      }
+    }
+
+    let s = JSON.stringify(variables);
+    console.log(s);
+    return;
+
+  });
+
+} else {
+  console.log(ERROR);
+  return;
+}
+
+
+let sortByTimestamp = (a, b) => {
+  let aTS = a.t.getTime();
+  let bTS = b.t.getTime();
+
+  return aTS - bTS;
+}

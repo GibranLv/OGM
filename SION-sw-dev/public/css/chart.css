@@ -1,0 +1,282 @@
+/* Grafica */
+
+.picker__box {
+  border: none;
+}
+.clockpicker-plate {
+  background: #010938;
+}
+.clockpicker-tick {
+  color: #fff !important;
+}
+.clockpicker-tick.active,
+.clockpicker-tick:hover {
+  background-color: #010938 !important;
+  color: #fff !important;
+}
+.clockpicker-canvas-bearing {
+  stroke: none;
+  fill: #AD172B;
+}
+.clockpicker-canvas-bg {
+  stroke: none;
+  fill: #AD172B;
+}
+.clockpicker-canvas-bg-trans {
+  fill: #AD172B;
+}
+.clockpicker-canvas line {
+  stroke: #AD172B;
+  stroke-width: 4;
+  stroke-linecap: round;
+  color: #fff !important;
+}
+.picker .picker__date-display {
+  background: #010938;
+}
+.picker .picker__close,
+.picker .picker__today {
+  color: #080348;
+}
+.picker .picker__day.picker__day--today {
+  font-weight: bold;
+  background: #eeeeee;
+  border: 1px solid #eeeeee;
+  color: #080348;
+}
+.picker .picker__day--selected,
+.picker .picker__day--selected:hover,
+.picker .picker--focused .picker__day--selected {
+  background: #010938;
+}
+.range-field {
+  width: 95%;
+}
+input[type=range] + .thumb {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  border: none;
+  height: 0;
+  width: 0;
+  border-radius: 50%;
+  background-color: #010938;
+  margin-left: 7px;
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+input[type=range] + .thumb .value {
+  display: block;
+  width: 30px;
+  text-align: center;
+  color: #010938;
+  font-size: 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background-color: #AD172B;
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  margin: -5px 0 0 0;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+.btn_actions {
+  width: 99%;
+}
+.btn_actions .btn_last {
+  padding: 0.4em 0.8em;
+  border-radius: 0.6em;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+  width: 15%;
+  background: #555;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+}
+.btn_actions .btn_last a {
+  color: #fff;
+  font-weight: 200;
+  font-size: 1.6em;
+}
+.btn_actions .btn_last a span {
+  display: block;
+  font-size: 0.5em !important;
+}
+.btn_actions .btn_last:hover,
+.btn_actions .btn_last:active,
+.btn_actions .btn_last:focus {
+  background: #080348;
+}
+.switch {
+  padding: 0.6em 0.4em;
+}
+.switch label .lever:before,
+.switch label .lever:after {
+  width: 26px;
+  height: 26px;
+  top: -0.5em;
+}
+.switch label input[type=checkbox]:checked + .lever {
+  background-color: #555 !important;
+  height: 16px;
+}
+.switch label input[type=checkbox]:checked + .lever:after {
+  background: #080348;
+}
+.btn_realgraf {
+  position: absolute;
+  right: 2em;
+  color: #fff;
+}
+.btn_realgraf a {
+  color: #fff;
+}
+.btn_realgraf i {
+  font-weight: 600;
+}
+.menu_grafica {
+  font-size: 1.05em;
+  padding: 5px !important;
+  /*padding-top: 4.1em !important;
+  padding: 0em 1.6em 1em 1.6em;*/
+  line-height: 1.2em;
+  background: #212226;
+}
+.menu_grafica .row .col {
+  padding: 0;
+  margin: 0;
+}
+.menu_grafica .select-wrapper input.select-dropdown {
+  border: 1px solid #fff;
+  padding: 0em 0.5em;
+  width: 85%;
+  color: #e6e6e6;
+}
+.menu_grafica .select-wrapper span.caret {
+  color: #e6e6e6;
+  right: 1.6em;
+}
+@media screen and (min-width: 991px) {
+  .menu_grafica .select-wrapper span.caret {
+    right: 1.3em;
+  }
+}
+.menu_grafica .select-dropdown li {
+  color: #080348;
+}
+.menu_grafica .select-dropdown li span {
+  color: #080348;
+}
+@media screen and (min-width: 991px) {
+}
+.menu_grafica input:not([type]),
+.menu_grafica input[type=text]:not(.browser-default),
+.menu_grafica input[type=password]:not(.browser-default),
+.menu_grafica input[type=email]:not(.browser-default),
+.menu_grafica input[type=url]:not(.browser-default),
+.menu_grafica input[type=time]:not(.browser-default),
+.menu_grafica input[type=date]:not(.browser-default),
+.menu_grafica input[type=datetime]:not(.browser-default),
+.menu_grafica input[type=datetime-local]:not(.browser-default),
+.menu_grafica input[type=tel]:not(.browser-default),
+.menu_grafica input[type=number]:not(.browser-default),
+.menu_grafica input[type=search]:not(.browser-default),
+.menu_grafica textarea.materialize-textarea {
+  color: #fff !important;
+  width: 84%;
+  border: 1px solid #e6e6e6;
+  padding: 0 0.5em;
+}
+.margin_top {
+  margin-top: -0.7em;
+}
+.btn_ttx {
+  text-align: center;
+  width: 98%;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  border-radius: 1em;
+  background: #010938;
+  vertical-align: middle;
+}
+.btn_ttx button {
+  padding: 0.5em 0.7em;
+  background: none;
+  border: none;
+  color: #fff;
+}
+.btn_ttx:hover,
+.btn_ttx:active,
+.btn_ttx:focus {
+  background: #AD172B;
+}
+
+.preloader {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.preloader .spinner-blue,
+.preloader .spinner-blue-only {
+  border-color: #AD172B;
+}
+.modal_evento {
+  padding: 0em 0 1em 0;
+  text-align: center;
+  background: #010938;
+  color: #fff;
+  border-radius: 0.4em;
+}
+.modal_evento .row .col {
+  padding: 0 0.6em;
+}
+.modal_evento input:not([type]),
+.modal_evento input[type=text]:not(.browser-default),
+.modal_evento input[type=password]:not(.browser-default),
+.modal_evento input[type=email]:not(.browser-default),
+.modal_evento input[type=url]:not(.browser-default),
+.modal_evento input[type=time]:not(.browser-default),
+.modal_evento input[type=date]:not(.browser-default),
+.modal_evento input[type=datetime]:not(.browser-default),
+.modal_evento input[type=datetime-local]:not(.browser-default),
+.modal_evento input[type=tel]:not(.browser-default),
+.modal_evento input[type=number]:not(.browser-default),
+.modal_evento input[type=search]:not(.browser-default),
+.modal_evento textarea.materialize-textarea {
+  color: #fff !important;
+  width: 97%;
+  border: 1px solid #e6e6e6;
+  padding: 0 0.5em;
+}
+label {
+  line-height: 1.1em !important;
+}
+input,
+textarea {
+  outline: 0px;
+}
+
+.highcharts-loading-inner {
+  color: #AD172B !important;
+}

@@ -1,0 +1,376 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+
+const async = require('async');
+const mysql = require('mysql');
+const _ = require('underscore');
+
+const ERROR = 'error';
+
+let oJSON = {};
+
+try {
+  let src = path.join(__dirname, '..', 'app.config');
+  let data = fs.readFileSync(src);
+  let s = data.toString();
+  oJSON = JSON.parse(s);
+} catch(e) {
+  let src = path.join(__dirname, '..', 'app.config');
+  console.log(src);
+  return
+}
+
+let args = process.argv;
+let last = args.length - 1;
+
+let variablesOut = {};
+
+if (last > -1) {
+  let sID = args[last];
+  let id = parseInt(sID);
+  if (_.isNaN(id)) {
+    console.log(ERROR);
+    return;
+  }
+
+  if (!_.isNumber(id)) {
+    console.log(ERROR);
+    return;
+  }
+
+  const connSW = mysql.createConnection({
+    host: oJSON.DB_HOST_SW,
+    user: oJSON.DB_USER_SW,
+    password: oJSON.DB_PWD_SW,
+    database: oJSON.DB_NAME_SW,
+  });
+
+  async.waterfall([
+    (fn) => {
+      connSW.connect((err) => {
+        if (err) {
+          console.error('error connecting:' + err.stack);
+          fn(true)
+          return;
+        }
+
+        fn();
+        return;
+      });
+    },
+    (fn) => {
+      let query = `SELECT * FROM records_requests WHERE id = ?;`
+      connSW.query(query, [id], (err, results, fields) => {
+        if (err) {
+          fn(true);
+          return;
+        }
+
+        if (results.length == 0) {
+          fn(true);
+          return;
+        }
+
+        let result = results[0];
+        let sJSON = result.json;
+        fn(null, sJSON);
+      });
+    },
+    (sJSON, fn) => {
+      connSW.end(() => {
+        connSW.destroy();
+        fn(null, sJSON);
+        return;
+      });
+    }
+  ], (err, sJSON) => {
+    if (err) {
+      console.log(ERROR);
+      return;
+    }
+
+    let variablesIn = [];
+
+    try {
+      variablesIn = JSON.parse(sJSON);
+    } catch (e) {
+      console.log(ERROR);
+      return;
+    }
+
+    async.each(variablesIn, (variableIn, next) => {
+
+      let o = {};
+
+      let key = variableIn.key;
+      let wheres = variableIn.wheres;
+
+      let tables = variableIn.tables;
+      let where = variableIn.where;
+
+      let is_avg = variableIn.is_avg;
+
+      o[key] = (fun) => {
+        const connection = mysql.createConnection({
+          host: oJSON.DB_HOST_RECODS,
+          user: oJSON.DB_USER_RECODS,
+          password: oJSON.DB_PWD_RECODS,
+          database: oJSON.DB_NAME_RECODS,
+          timezone: 'Z',
+          multipleStatements: true
+        });
+
+        async.waterfall([
+          (fn) => {
+            connection.connect((err) => {
+              if (err) {
+                console.error('error connecting:' + err.stack);
+                fn(true)
+                return;
+              }
+
+              fn();
+              return;
+            });
+          },
+          (fn) => {
+
+						//console.log(tables, where)
+
+            let qs = {};
+						if (!_.isArray(tables)) tables = []
+					
+						for (let i = 0; i < tables.length; i++) {
+							const table = tables[i];
+
+							qs[i] = (f) => {
+                let rowsOut = [];
+
+								let query = `SELECT * FROM ${table} WHERE timestamp >= ? AND timestamp < ? ORDER BY timestamp ASC;`
+
+								connection.query(query, [where.gte, where.lt], (err, results) => {
+									if (err) {
+										f(null, rowsOut);
+										return;
+									}
+
+									if (results.length == 0) {
+										f(null, rowsOut);
+										return;
+									}
+
+									let rows = [];
+									let rowsIndex = 0
+
+									rows = rows.concat(results);
+									//console.log(results.length, wheres.length)
+
+									for (let j = 0; j < wheres.length; j++) {
+										const whereOne = _.clone(wheres[j]);
+										
+										let gteString = whereOne.gte.replace(' ', 'T')
+										gteString = `${gteString}Z`
+
+										let ltString = whereOne.lt.replace(' ', 'T')
+										ltString = `${ltString}Z`
+										
+										let gteInt = (new Date(gteString)).getTime()
+										let ltInt = (new Date(ltString)).getTime()
+										let rowsWhere = [];
+
+										let sizeRows = rows.length
+
+										for (rowsIndex; rowsIndex < sizeRows;) {
+											const rowOne = rows[rowsIndex];
+
+											let ts = rowOne.timestamp.getTime()
+
+											//console.log(j, rowsIndex, sizeRows, new Date(ts), new Date(gteInt), new Date(ltInt))
+											if (ts >= ltInt) {
+												break
+											}
+
+											if (ts >= gteInt && ts < ltInt) {
+												rowsWhere.push(rowOne)
+											}
+
+											rowsIndex = rowsIndex + 1
+										}
+
+										let valueAvg = 0;
+										let timestamp = whereOne.lt;
+										let id = 0;
+
+										let size = rowsWhere.length;
+										if (size == 1) {
+											const r = rowsWhere[0];
+											valueAvg = r.value;
+		
+										} else if (size > 1) {
+											valueAvg = [];
+											for (let i = 0; i < size; i++) {
+												const r = rowsWhere[i];
+												valueAvg.push(r.value);
+											}
+										}
+		
+										if (_.isNaN(valueAvg) || _.isNull(valueAvg)) valueAvg = 0;
+		
+										timestamp = timestamp.replace(' ', 'T');
+										timestamp = timestamp + 'Z';
+		
+										let row = {
+											id: id,
+											v: valueAvg,
+											t: timestamp
+										};
+
+										rowsOut.push(row)
+									}
+	
+									f(null, rowsOut);
+								});
+							}
+						}
+
+            async.parallel(qs, (err, r) => {
+              let res = [];
+
+              for (let i = 0; i < tables.length; i++) {
+								let rows = r[i]
+
+								if (!_.isArray(rows)) rows = []  
+
+                for (let j = 0; j < rows.length; j++) {
+                  const row = rows[j];
+
+                  if (_.isArray(row.v)) {
+                    if (res.length > 0) {
+                      let size = res.length;
+                      let isZero = res[size-1].v == 0;
+
+                      if (isZero) {
+                        let size = res.length;
+                        res[size-1].v = row.v[0];
+
+                        let o = {
+                          v: row.v[1],
+                          t: row.t
+                        };
+
+                        if (row.id) o.id = row.id;
+
+                        res.push(o);
+
+                      } else {
+                        let vAvg = 0;
+                        for (let k = 0; k < row.v.length; k++) {
+                          const v = row.v[k];
+                          vAvg = vAvg + v;
+                        }
+
+                        vAvg = vAvg / row.v.length;
+
+                        let o = {
+                          v: vAvg,
+                          t: row.t
+                        };
+
+                        if (row.id) o.id = row.id;
+
+                        res.push(o);
+                      }
+
+                    } else {
+                      let vAvg = 0;
+                      for (let k = 0; k < row.v.length; k++) {
+                        const v = row.v[k];
+                        vAvg = vAvg + v;
+                      }
+
+                      vAvg = vAvg / row.v.length;
+
+                      let o = {
+                        //v: row.v[1],
+                        v: vAvg,
+                        t: row.t
+                      };
+
+                      if (row.id) o.id = row.id;
+
+                      res.push(o);
+                    }
+
+                  } else {
+                    let o = {
+                      v: row.v,
+                      t: row.t
+                    };
+
+                    if (row.id) o.id = row.id;
+
+                    res.push(o);
+                  }
+                }
+              }
+
+              fn(null, res);
+            });
+          },
+          (results, fn) => {
+            connection.end(() => {
+              connection.destroy();
+              fn(null, results);
+              return;
+            });
+          }
+        ], (err, results) => {
+          if (err) {
+            fun(null, []);
+            return;
+          }
+
+          fun(null, results);
+          return;
+        });
+      };
+
+      if (_.isEmpty(o)) {
+        variablesOut[key] = [];
+        next();
+        return;
+      }
+
+      async.parallel(o, (err, results) => {
+        variablesOut[key] = results[key];
+        next();
+        return;
+      });
+
+    }, () => {
+      let variables = [];
+      for (const key in variablesOut) {
+        if (variablesOut.hasOwnProperty(key)) {
+          const records = variablesOut[key];
+          let o = {
+            variable: key,
+            records: records
+          };
+          variables.push(o);
+        }
+      }
+
+      let s = JSON.stringify(variables);
+      console.log(s);
+    });
+
+  });
+
+} else {
+  console.log(ERROR);
+  return;
+}

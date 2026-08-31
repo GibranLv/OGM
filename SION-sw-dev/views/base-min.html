@@ -1,0 +1,56 @@
+{{ define "base" }}
+
+<!DOCTYPE html>
+<html lang="es">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>O&GM v4 ™</title>
+    <meta name="description" content="OGM">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/favicon/logo.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="/static/css/ogm.css" media="all">
+    <link rel="stylesheet" href="/static/icon-font/material-icons.css">
+    {{ template "css" .}}
+    <script type="text/javascript" src="/static/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/materialize.js"></script>
+  </head>
+  <body>
+
+    <div id="root"></div>
+
+    <div id="cerrar_sesion" class="modal modal_sesion">
+      <div class="modal-content">
+        <i class="material-icons animated fadeInDown">exit_to_app</i>
+        <div class="modal_box animated fadeIn">
+          <h5>¿Está seguro de que quiere salir?</h5>
+          <br />
+          <a href="#" class="modal-action modal-close btn btn_ttx_error darken-3">Cancelar</a>
+          <a href="#" class="modal-action modal-close btn btn_ttx_success">Aceptar</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var USER_NAME = "{{.UserName}}";
+      var USER_ROLE = "{{.UserRole}}";
+      var USER_JOB = "{{.UserJob}}";
+      var USER_AVATAR = "{{.UserAvatar}}";
+
+      var TITLE_ONE = "{{.TitleOne}}";
+      var TITLE_TWO = "{{.TitleTwo}}";
+      var TITLE_ONE_LEFT = "{{.TitleOneLeft}}";
+      var TITLE_TWO_LEFT = "{{.TitleTwoLeft}}";
+      var LOGO_LEFT = "{{.LogoLeft}}";
+    </script>
+
+    {{ template "js" .}}
+  </body>
+
+</html>
+
+{{ end }}

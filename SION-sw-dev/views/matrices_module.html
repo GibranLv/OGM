@@ -1,0 +1,40 @@
+{{ define "css" }}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="/static/css/ogm_v3.1.css"
+  media="all"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="/static/css/popover.css"
+  media="all"
+/>
+{{ end }} {{define "js"}}
+<script>
+  var SYSTEM_HOST = window.location.host;
+  var URLWS = "{{.URLWS}}";
+  var URLWSA = "{{.URLWSA}}";
+
+  var MatrixID = {{.MatrixID}};
+  var RT = {{.RT}};
+  var CHART_THEME = {{.ChartTheme}};
+  var COMMENT_COLUMN = {{.CommentColumn}};
+
+  var FUSION_VARS = [];
+  var CP_MAPS = {};
+  var CP_MAPS_II = {};
+</script>
+<script src="/static/js/js.cookie.min.js"></script>
+<script src="/static/js/math.min.js"></script>
+
+<script src="/static/js/moment.min.js"></script>
+<script src="/static/js/moment-timezone-with-data-1970-2030.min.js"></script>
+<script src="/static/js/highstock.js"></script>
+<script src="/static/js/boost.js"></script>
+<script src="/static/js/exporting.js"></script>
+<script src="/static/js/export-data.js"></script>
+<script src="/static/js/src/matrices_module.js"></script>
+
+{{ end }}

@@ -1,0 +1,5 @@
+module github.com/JamsMendez/SION-sw/models/user
+
+go 1.14
+
+require github.com/go-sql-driver/mysql v1.5.0

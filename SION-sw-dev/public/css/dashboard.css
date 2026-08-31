@@ -1,0 +1,714 @@
+header {
+  position: fidex;
+  z-index: 101 !important;
+}
+.Active {
+  background: #71ff01;
+  color: #111111 !important;
+  box-shadow: 0 0 8px #71ff01;
+  border: 2px solid #77ff0b;
+}
+.Warning {
+  color: #111111 !important;
+  background: #fff600;
+  box-shadow: 0 0 8px #fff600;
+  border: 2px solid #fff600;
+  border: 2px solid #fff60a;
+}
+.WarningTxt {
+  color: #fff600;
+  font-weight: 600;
+}
+.Danger {
+  background: #ff0000;
+  box-shadow: 0 0 8px #ff0000;
+  border: 2px solid #ff0000;
+}
+.Inactive {
+  color: #111111 !important;
+  background: #919296;
+  box-shadow: 0 0 8px #919296;
+  border: 2px solid #919296;
+}
+.Verde {
+  background: #5ec32c;
+  box-shadow: 0 0 8px #5ec32c;
+  border: 2px solid #5ec32c;
+}
+.MatrizUpdate .DashInter {
+  margin-top: 9em;
+}
+.MatrizUpdate .DashInter .Title {
+  background: #080348;
+  padding: 0em 0.4em 0em 0.4em;
+  color: white;
+  text-shadow: -1px 2px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  text-align: center;
+  border: 3px outset #0b0465;
+}
+.MatrizUpdate .DashInter .Title h5 {
+  font-weight: 300;
+  font-size: 1.4em !important;
+}
+.MatrizUpdate .DashInter table thead {
+  background: #e20000;
+  background: -moz-linear-gradient(top, #e20000 0%, #ad0000 8%, #ff0000 49%, #ad0000 90%, #ff1c1c 100%);
+  background: -webkit-linear-gradient(top, #e20000 0%, #ad0000 8%, #ff0000 49%, #ad0000 90%, #ff1c1c 100%);
+  background: linear-gradient(to bottom, #e20000 0%, #ad0000 8%, #ff0000 49%, #ad0000 90%, #ff1c1c 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e20000', endColorstr='#ff1c1c', GradientType=0);
+  border: 6px outset #e2243e;
+  color: white;
+  text-shadow: -1px 2px rgba(0, 0, 0, 0.2);
+}
+.MatrizUpdate .DashInter table thead th {
+  vertical-align: middle;
+  border: 1px solid #9f1528;
+  padding: 0.5em 0.6em 0.65em 0.6em;
+  font-size: 0.75em;
+  text-align: center;
+  line-height: 1.4em;
+  color: #fff;
+  font-weight: 400;
+}
+.MatrizUpdate .DashInter table thead .TitleVar {
+  font-size: 0.91em;
+}
+.MatrizUpdate .DashInter table tbody {
+  background: #080348;
+  color: white;
+  text-shadow: -1px 2px rgba(0, 0, 0, 0.2);
+}
+.MatrizUpdate .DashInter table tbody tr {
+  border: 7px outset #0b0460;
+}
+.MatrizUpdate .DashInter table tbody tr .Indicator {
+  position: relative;
+}
+.MatrizUpdate .DashInter table tbody tr .Indicator strong {
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 39%;
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
+.MatrizUpdate .DashInter table tbody tr .Indicator strong .Sound {
+  position: absolute;
+  left: 265%;
+  bottom: 140%;
+  width: 9px;
+  height: 9px;
+  background: #ff0505;
+  border-radius: 50%;
+}
+.MatrizUpdate .DashInter table tbody tr .TitleMotoc {
+  text-align: left;
+  font-size: 0.91em;
+  line-height: 1em;
+}
+.MatrizUpdate .DashInter table tbody tr .TitleMotoc strong {
+  display: block;
+  padding: 0.5em 1.1em;
+  line-height: 1.4em;
+  background: #060239;
+}
+.MatrizUpdate .DashInter table tbody tr .TitleMotoc a {
+  margin-left: 0em;
+  display: inline-block;
+}
+.MatrizUpdate .DashInter table tbody tr .TitleMotoc a i {
+  margin-right: 0.3em;
+  display: inline-block;
+  font-size: 0.9em;
+  color: #fff;
+}
+.MatrizUpdate .DashInter table tbody tr td {
+  font-weight: 300;
+  border: 1px outset #0f0583;
+  padding: 0.2em 0.5em 0.2em 0.2em;
+  text-align: center;
+  font-size: 0.9em;
+}
+.MatrizUpdateDVZ {
+  padding-bottom: 17em;
+}
+.MatrizUpdateDVZ .DashInter {
+  margin-top: 9em;
+}
+.MatrizUpdateDVZ .DashInter .Title {
+  background: #080348;
+  padding: 0em 0.4em 0em 0.4em;
+  color: white;
+  text-shadow: -1px 2px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  text-align: center;
+  border: 3px outset #0b0465;
+}
+.MatrizUpdateDVZ .DashInter .Title h5 {
+  font-weight: 300;
+  font-size: 1.4em !important;
+}
+.MatrizUpdateDVZ .DashInter table thead {
+  background: #014689;
+  border: 6px outset #014e98;
+  color: white;
+  text-shadow: -1px 2px rgba(0, 0, 0, 0.2);
+}
+.MatrizUpdateDVZ .DashInter table thead th {
+  vertical-align: middle;
+  border: 1px solid #013e7a;
+  padding: 0.5em 0.2em 0.65em 0.2em;
+  font-size: 0.66em;
+  text-align: center;
+  line-height: 1.3em;
+  color: #fff;
+  font-weight: 600;
+}
+.MatrizUpdateDVZ .DashInter table thead .TitleVar {
+  font-size: 0.91em;
+}
+.MatrizUpdateDVZ .DashInter table tbody {
+  background: #080348;
+  color: white;
+  text-shadow: -1px 2px rgba(0, 0, 0, 0.2);
+}
+.MatrizUpdateDVZ .DashInter table tbody .Flex {
+  display: flex;
+  flex-direction: column;
+}
+.MatrizUpdateDVZ .DashInter table tbody .Flex .WarningTxt a {
+  color: #fff600 !important;
+}
+.MatrizUpdateDVZ .DashInter table tbody .Flex strong a {
+  color: #fff !important;
+}
+.MatrizUpdateDVZ .DashInter table tbody .Flex .FlexBody i {
+  font-size: 0.9em;
+  color: #fff;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr {
+  border: 7px outset #0b0460;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr .Indicator {
+  position: relative;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr .Indicator .Notif a i {
+  color: #fff;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr .Indicator strong {
+  z-index: 3 !important;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 39%;
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr .Indicator strong a {
+  color: #fff !important;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr .Indicator strong .Sound {
+  position: absolute;
+  left: 265%;
+  bottom: 140%;
+  width: 9px;
+  height: 9px;
+  background: #ff0505;
+  border-radius: 50%;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr .Notif a {
+  padding: 0;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr .Notif a i {
+  padding: 0;
+  font-size: 0.9em;
+  color: #fff;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr .TitleMotoc {
+  text-align: left;
+  font-size: 0.75em;
+  line-height: 1em;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr .TitleMotoc strong {
+  display: block;
+  padding: 0.5em 0.4em;
+  line-height: 1.4em;
+  background: #060239;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr .TitleMotoc a {
+  margin-left: 0em;
+  display: inline-block;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr .TitleMotoc a i {
+  margin-right: 0.1em;
+  display: inline-block;
+  font-size: 0.9em;
+  color: #fff;
+}
+.MatrizUpdateDVZ .DashInter table tbody tr td {
+  font-weight: 300;
+  border: 1px outset #0f0583;
+  padding: 0.2em 0.1em 0.2em 0.2em;
+  text-align: center;
+  font-size: 0.9em;
+}
+.Footer {
+  width: 100%;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 1em 0 1em 0;
+  bottom: 0;
+  position: fixed;
+  overflow-y: scroll;
+  height: 240px;
+}
+.Footer table thead {
+  background: #e20000;
+  background: -moz-linear-gradient(top, #e20000 0%, #ad0000 8%, #ff0000 49%, #ad0000 90%, #ff1c1c 100%);
+  background: -webkit-linear-gradient(top, #e20000 0%, #ad0000 8%, #ff0000 49%, #ad0000 90%, #ff1c1c 100%);
+  background: linear-gradient(to bottom, #e20000 0%, #ad0000 8%, #ff0000 49%, #ad0000 90%, #ff1c1c 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e20000', endColorstr='#ff1c1c', GradientType=0);
+  border: 6px outset #e2243e;
+  color: white;
+  text-shadow: -1px 2px rgba(0, 0, 0, 0.2);
+}
+.Footer table thead th {
+  vertical-align: middle;
+  border: 1px solid #9f1528;
+  padding: 0.5em 0.6em 0.65em 0.6em;
+  font-size: 0.85em;
+  text-align: center;
+  line-height: 1.4em;
+  color: #fff;
+  font-weight: 400;
+}
+.Footer table thead .TitleVar {
+  font-size: 0.91em;
+}
+.Footer table tbody {
+  background: #080348;
+  color: white;
+  text-shadow: -1px 2px rgba(0, 0, 0, 0.2);
+}
+.Footer table tbody tr {
+  border: 7px outset #0b0460;
+}
+.Footer table tbody tr .Indicator {
+  position: relative;
+}
+.Footer table tbody tr .Indicator strong {
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 39%;
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
+.Footer table tbody tr .Indicator strong .Sound {
+  position: absolute;
+  left: 265%;
+  bottom: 140%;
+  width: 9px;
+  height: 9px;
+  background: #ff0505;
+  border-radius: 50%;
+}
+.Footer table tbody tr .TitleMotoc {
+  text-align: left;
+  font-size: 0.91em;
+  line-height: 1em;
+}
+.Footer table tbody tr .TitleMotoc strong {
+  display: block;
+  padding: 0.5em 1.1em;
+  line-height: 1.4em;
+  background: #060239;
+}
+.Footer table tbody tr .TitleMotoc a {
+  margin-left: 0em;
+  display: inline-block;
+}
+.Footer table tbody tr .TitleMotoc a i {
+  margin-right: 0.3em;
+  display: inline-block;
+  font-size: 0.99em;
+  color: #fff;
+}
+.Footer table tbody tr td {
+  font-weight: 300;
+  border: 1px outset #0f0583;
+  padding: 0.2em 1em 0.2em 1em;
+  text-align: center;
+  font-size: 0.88em;
+}
+.FooterDVZ {
+  width: 100%;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 1em 0 1em 0;
+  bottom: 0;
+  position: fixed;
+  overflow-y: scroll;
+  height: 240px;
+  z-index: 99 !important;
+}
+.FooterDVZ table thead {
+  background: #014689;
+  border: 6px outset #0168cb;
+  color: white;
+  text-shadow: -1px 2px rgba(0, 0, 0, 0.2);
+}
+.FooterDVZ table thead th {
+  vertical-align: middle;
+  border: 1px solid #013e7a;
+  padding: 0.5em 0.6em 0.65em 0.6em;
+  font-size: 0.85em;
+  text-align: center;
+  line-height: 1.4em;
+  color: #fff;
+  font-weight: 400;
+}
+.FooterDVZ table thead .TitleVar {
+  font-size: 0.91em;
+}
+.FooterDVZ table tbody {
+  background: #080348;
+  color: white;
+  text-shadow: -1px 2px rgba(0, 0, 0, 0.2);
+}
+.FooterDVZ table tbody tr {
+  border: 7px outset #0b0460;
+}
+.FooterDVZ table tbody tr .Indicator {
+  position: relative;
+}
+.FooterDVZ table tbody tr .Indicator strong {
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 39%;
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
+.FooterDVZ table tbody tr .Indicator strong .Sound {
+  position: absolute;
+  left: 265%;
+  bottom: 140%;
+  width: 9px;
+  height: 9px;
+  background: #ff0505;
+  border-radius: 50%;
+}
+.FooterDVZ table tbody tr .TitleMotoc {
+  text-align: left;
+  font-size: 0.91em;
+  line-height: 1em;
+}
+.FooterDVZ table tbody tr .TitleMotoc strong {
+  display: block;
+  padding: 0.5em 1.1em;
+  line-height: 1.4em;
+  background: #060239;
+}
+.FooterDVZ table tbody tr .TitleMotoc a {
+  margin-left: 0em;
+  display: inline-block;
+}
+.FooterDVZ table tbody tr .TitleMotoc a i {
+  margin-right: 0.3em;
+  display: inline-block;
+  font-size: 0.99em;
+  color: #fff;
+}
+.FooterDVZ table tbody tr td {
+  font-weight: 300;
+  border: 1px outset #0f0583;
+  padding: 0.2em 1em 0.2em 1em;
+  text-align: center;
+  font-size: 0.88em;
+}
+.DashboardWelcome .Alls {
+  /*margin-top: 8.5em;*/
+  padding: 0 1em;
+}
+.DashboardWelcome .Charts {
+  padding: 2em 2.2em;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  line-height: 1.1em;
+}
+.DashboardWelcome .Charts h4 {
+  padding: 0;
+  margin: 0;
+  font-weight: 200;
+  color: #e91939;
+  font-size: 1.8em;
+  text-transform: uppercase;
+}
+.DashboardWelcome .Charts h3 {
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.6em;
+}
+.DashboardWelcome .Charts h3 span {
+  display: block;
+  line-height: 1.2em;
+  font-size: 2em;
+}
+.DashboardWelcome .Charts .Chart {
+  margin-top: 2em;
+}
+.DashboardWelcome .CardsD {
+  width: 99%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0em 0.3em;
+  padding: 2em 2.2em;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  line-height: 1.1em;
+  height: 220px;
+  margin-bottom: 0.7em;
+}
+@media screen and (min-width: 991px) {
+  .DashboardWelcome .CardsD {
+    width: 32%;
+  }
+}
+.DashboardWelcome .CardsD h4 {
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  padding-bottom: 0.5em;
+  font-weight: 600;
+  color: #026dd5;
+  font-size: 1.5em;
+  text-transform: uppercase;
+}
+.DashboardWelcome .CardsD h5 {
+  padding: 0.1em 0.3em;
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: 200;
+}
+.DashboardWelcome .CardsD h3 {
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.6em;
+}
+.DashboardWelcome .CardsD h3 strong {
+  display: block;
+  line-height: 1.2em;
+  font-size: 2em;
+}
+.DashboardWelcome .CardsD h3 span {
+  display: block;
+  line-height: 1.4em;
+  font-size: 0.55em;
+  color: #bfbfbf;
+}
+.DashboardWelcome .CardsD .Chart {
+  margin-top: 2em;
+}
+.DashboardWelcome .CardsDouble {
+  width: 100%;
+  position: relative;
+}
+.DashboardWelcome .CardsDouble .CardsAlarms,
+.DashboardWelcome .CardsDouble .CardsMaps {
+  width: 98.3%;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  margin: 0em 0.3em;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  line-height: 1.1em;
+  margin-bottom: 0.7em;
+  position: relative;
+}
+@media screen and (min-width: 991px) {
+  .DashboardWelcome .CardsDouble .CardsAlarms,
+  .DashboardWelcome .CardsDouble .CardsMaps {
+    width: 48.3%;
+  }
+}
+.DashboardWelcome .CardsDouble .CardsAlarms {
+  height: 400px;
+  overflow-y: auto;
+}
+@media screen and (min-width: 991px) {
+  .DashboardWelcome .CardsDouble .CardsAlarms {
+    height: 300px;
+  }
+}
+.DashboardWelcome .CardsDouble .CardsAlarms .Alarms {
+  padding: 0.2em 0.5em;
+  margin: 5px 0px;
+}
+
+.DashboardWelcome .CardsDouble .CardsAlarms .Alarms .Alarm {
+  padding: 0 0.2em 0 1em !important;
+  transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -ms-transition: all 0.25s ease-in-out;
+}
+.DashboardWelcome .CardsDouble .CardsAlarms .Alarms .Alarm .BoxTxt,
+.DashboardWelcome .CardsDouble .CardsAlarms .Alarms .Alarm .BoxClose {
+  width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.DashboardWelcome .CardsDouble .CardsAlarms .Alarms .Alarm .BoxTxt {
+  width: 95.3%;
+  text-align: left !important;
+}
+.DashboardWelcome .CardsDouble .CardsAlarms .Alarms .Alarm .BoxClose {
+  width: 4%;
+  text-align: center;
+}
+.DashboardWelcome .CardsDouble .CardsAlarms .Alarms .Alarm .BoxClose a {
+  display: inline-block;
+  vertical-align: middle;
+  color: #525252;
+}
+.DashboardWelcome .CardsDouble .CardsAlarms .Alarms .Alarm .BoxClose a i {
+  font-size: 1.2em;
+}
+.DashboardWelcome .CardsDouble .CardsAlarms .Alarms .Alarm h5 {
+  font-size: 1.02em;
+  font-weight: 400;
+}
+.DashboardWelcome .CardsDouble .CardsAlarms .Alarms .Alarm h5 i {
+  font-size: 1.1em;
+}
+.DashboardWelcome .CardsDouble .CardsAlarms h4 {
+  margin-bottom: -0.2em;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  padding-bottom: -1.5em;
+  padding-top: 1em;
+  font-weight: 600;
+  color: #026dd5;
+  font-size: 1.5em;
+  text-transform: uppercase;
+}
+@media screen and (min-width: 991px) {
+  .DashboardWelcome .CardsDouble .CardsAlarms h4 {
+    position: relative;
+  }
+}
+.DashboardWelcome .CardsDouble .CardsAlarms h3 {
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.6em;
+}
+.DashboardWelcome .CardsDouble .CardsAlarms h3 strong {
+  display: block;
+  line-height: 1.2em;
+  font-size: 2em;
+}
+.DashboardWelcome .CardsDouble .CardsAlarms h3 span {
+  display: block;
+  line-height: 1.4em;
+  font-size: 0.55em;
+}
+.DashboardWelcome .CardsDouble .CardsMaps {
+  padding: 0 !important;
+  height: 100%;
+}
+@media screen and (min-width: 991px) {
+  .DashboardWelcome .CardsDouble .CardsMaps {
+    height: 300px;
+  }
+}
+.DashboardWelcome .CardsDouble .CardsMaps #map {
+  height: 100%;
+}
+
+.contenedor_root {
+  padding-bottom: 0px !important;
+}
+
+#map {
+  min-height: 200px;
+  margin-top: 5px;
+}
+
+#sion-panel.tabs {
+  background-color: transparent;
+}
+
+#sion-panel .tab {
+  border: 0px solid;
+}
+
+#sion-panel .indicator {
+  display: block !important;
+  background-color: #F44336 !important;
+}
+
+#chart-variables h5, #map-variables h5, .CardsMaps h5 {
+  margin-bottom: -0.2em;
+  text-align: center;
+  padding: 0;
+  margin: 3px;
+  font-weight: 600;
+  color: #026dd5;
+  font-size: 1.5em;
+  text-transform: uppercase;
+}
+
+#sion-container-charts {
+  min-height: 100px;
+  margin-top: 8px;
+}
+
+.highcharts-figure, .highcharts-data-table table {
+    min-width: 310px;
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #EBEBEB;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+.highcharts-data-table th {
+	font-weight: 600;
+    padding: 0.5em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}

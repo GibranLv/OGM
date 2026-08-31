@@ -1,0 +1,90 @@
+.profiles {
+  line-height: 1.4em;
+  color: #fff;
+  font-weight: 200;
+  position: relative;
+  z-index: 999 !important;
+}
+.profiles .row .col {
+  padding: 0;
+  margin: 0;
+}
+.profiles .card {
+  position: relative;
+}
+.profiles .card .card-profile-image {
+  z-index: 4;
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+}
+.profiles .card .card-profile-image img {
+  width: 120px;
+}
+.profiles .avatar {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2.0em 1.5em;
+  text-align: center;
+  height: 100%;
+  border-right: 2px solid rgba(0, 0, 0, 0.3);
+}
+.profiles .avatar .img_avat {
+  position: relative;
+  padding-bottom: 2px solid rgba(255, 255, 255, 0.3) !important;
+}
+.profiles .avatar .img_avat .edit_btn {
+  position: absolute;
+  right: 10%;
+  top: 40%;
+}
+.profiles .avatar .img_avat figure img {
+  padding: 0.2em;
+  width: 140px;
+  border-radius: 50%;
+}
+.profiles .avatar .content {
+  padding: 1.3em 1.5em 1.5em 1.5em;
+  background: rgba(0, 0, 0, 0.4);
+}
+.profiles .avatar .content h4 {
+  font-weight: 200 !important;
+  padding: 0;
+  margin: 0;
+}
+.profiles .avatar .content p {
+  padding: 0;
+  margin: 0;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  color: #4252da;
+}
+.profiles .avatar .footer {
+  padding: 1.2em 1.0em;
+}
+.profiles .avatar .footer li {
+  margin: 0.8em 0 !important;
+}
+.profiles .avatar .footer li a {
+  vertical-align: top;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 1.1em;
+}
+.profiles .profile {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1.2em 1.5em 2.4em 1.5em;
+  height: 100%;
+}
+.profiles .profile .back img {
+  width: 100%;
+}
+.profiles .profile .content_info {
+  padding: 0.3em 1.9em;
+}
+.profiles .profile .content_info h4 {
+  font-weight: 200;
+  font-size: 1.8em;
+}
+.profiles .profile .body_info {
+  padding: 0.1em 1.9em;
+}

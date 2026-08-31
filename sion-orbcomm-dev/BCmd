@@ -1,0 +1,121 @@
++-----+------------+-------------+-------------+
+| id  | orbcomm_id | variable_id | name        |
++-----+------------+-------------+-------------+
+| 125 |          7 |          87 | parameter01 |
+| 126 |          7 |          88 | parameter02 |
+| 127 |          7 |          89 | parameter03 |
+| 128 |          7 |          90 | parameter04 |
+| 129 |          7 |          91 | parameter05 |
+| 130 |          7 |          92 | parameter06 |
+| 131 |          7 |          93 | parameter07 |
+| 132 |          7 |          94 | parameter08 |
+| 133 |          7 |          95 | parameter09 |
+| 134 |          7 |          96 | parameter10 |
+| 135 |          7 |          97 | parameter11 |
+| 136 |          7 |          98 | parameter12 |
+| 137 |          7 |          99 | parameter13 |
+| 138 |          7 |         100 | parameter14 |
+| 139 |          7 |         101 | parameter15 |
+| 140 |          7 |         102 | parameter16 |
+| 141 |          7 |         103 | parameter17 |
+| 142 |          7 |         104 | parameter18 |
+| 143 |          7 |         105 | parameter19 |
+| 144 |          7 |         179 | parameter20 |
+| 145 |          7 |         180 | parameter21 |
+| 146 |          7 |         181 | parameter22 |
+| 147 |          7 |         182 | parameter23 |
+| 148 |          7 |         110 | parameter24 |
+| 149 |          7 |         111 | parameter25 |
++-----+------------+-------------+-------------+
+25 rows in set (0.00 sec)
+
+mysql> select * from orbcomms_variables where orbcomm_id = 22;
++-----+------------+-------------+-------------+
+| id  | orbcomm_id | variable_id | name        |
++-----+------------+-------------+-------------+
+| 477 |         22 |         524 | parameter01 |
+| 478 |         22 |         525 | parameter02 |
+| 479 |         22 |         526 | parameter03 |
+| 480 |         22 |         527 | parameter04 |
+| 481 |         22 |         528 | parameter05 |
+| 482 |         22 |         529 | parameter06 |
+| 483 |         22 |         530 | parameter07 |
+| 484 |         22 |         531 | parameter08 |
+| 485 |         22 |         532 | parameter09 |
+| 486 |         22 |         533 | parameter10 |
+| 487 |         22 |         534 | parameter11 |
+| 488 |         22 |         535 | parameter12 |
+| 489 |         22 |         536 | parameter13 |
+| 490 |         22 |         537 | parameter14 |
+| 491 |         22 |         538 | parameter15 |
+| 492 |         22 |         539 | parameter16 |
+| 493 |         22 |         540 | parameter17 |
+| 494 |         22 |         541 | parameter18 |
+| 495 |         22 |         542 | parameter19 |
+| 496 |         22 |         545 | parameter20 |
+| 497 |         22 |         546 | parameter21 |
+| 498 |         22 |         547 | parameter22 |
+| 499 |         22 |         548 | parameter23 |
+| 500 |         22 |         549 | parameter24 |
+| 501 |         22 |         550 | parameter25 |
+
+mysql> select * from orbcomms_variables where orbcomm_id = 3;
+
+|  16 |          3 |           1 | parameter01 |
+|  17 |          3 |           2 | parameter02 |
+|  18 |          3 |           3 | parameter03 |
+|  19 |          3 |           4 | parameter04 |
+|  20 |          3 |           5 | parameter05 |
+|  21 |          3 |          17 | parameter06 |
+|  22 |          3 |           6 | parameter07 |
+|  23 |          3 |           7 | parameter08 |
+|  24 |          3 |           8 | parameter09 |
+|  25 |          3 |           9 | parameter10 |
+|  26 |          3 |          10 | parameter11 |
+|  27 |          3 |          11 | parameter12 |
+|  28 |          3 |          12 | parameter13 |
+|  29 |          3 |          13 | parameter14 |
+|  30 |          3 |          18 | parameter15 |
+|  31 |          3 |          19 | parameter16 |
+|  32 |          3 |          20 | parameter17 |
+|  33 |          3 |          21 | parameter18 |
+|  34 |          3 |          22 | parameter19 |
+|  35 |          3 |          23 | parameter20 |
+|  36 |          3 |          24 | parameter21 |
+|  37 |          3 |          25 | parameter22 |
+|  38 |          3 |          26 | parameter23 |
+|  66 |          3 |         166 | parameter24 |
+|  67 |          3 |          29 | parameter27 |
+|  68 |          3 |          28 | parameter28 |
+|  69 |          3 |          30 | parameter29 |
+| 123 |          3 |         175 | parameter25 |
+| 124 |          3 |         176 | parameter26 |
++-----+------------+-------------+-------------+
+29 rows in set (0.00 sec)
+
+mysql> select * from orbcomms_variables where orbcomm_id = 17;
+
+| 358 |         17 |         389 | parameter01 |
+| 359 |         17 |         390 | parameter02 |
+| 360 |         17 |         391 | parameter03 |
+| 361 |         17 |         392 | parameter04 |
+| 362 |         17 |         393 | parameter05 |
+| 363 |         17 |         394 | parameter06 |
+| 364 |         17 |         395 | parameter07 |
+| 365 |         17 |         396 | parameter08 |
+| 366 |         17 |         397 | parameter09 |
+| 367 |         17 |         398 | parameter10 |
+| 368 |         17 |         399 | parameter11 |
+| 369 |         17 |         400 | parameter12 |
+| 370 |         17 |         401 | parameter13 |
+| 371 |         17 |         402 | parameter14 |
+| 372 |         17 |         403 | parameter15 |
+| 373 |         17 |         404 | parameter16 |
+| 374 |         17 |         405 | parameter17 |
+| 375 |         17 |         406 | parameter18 |
+| 376 |         17 |         407 | parameter19 |
+| 377 |         17 |         411 | parameter23 |
+| 378 |         17 |         412 | parameter24 |
+| 379 |         17 |         413 | parameter25 |
++-----+------------+-------------+-------------+
+

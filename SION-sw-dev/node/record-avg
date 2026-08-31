@@ -1,0 +1,454 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+
+const async = require('async');
+const mysql = require('mysql');
+const _ = require('underscore');
+
+const ERROR = 'error';
+
+let oJSON = {};
+
+try {
+  let src = path.join(__dirname, '..', 'app.config');
+  let data = fs.readFileSync(src);
+  let s = data.toString();
+  oJSON = JSON.parse(s);
+} catch (e) {
+  let src = path.join(__dirname, '..', 'app.config');
+  console.log(src);
+  return
+}
+
+let args = process.argv;
+let last = args.length-1;
+
+let variablesOut = {};
+
+if (last > -1) {
+  /*let variablesIn = [
+    {
+      key: v_${int64} || cv_${int64}
+      wheres: [ { gte: String, lt: String, tables: [String] }, ...]
+    }
+  ];*/
+
+  let s = args[last];
+  let variablesIn = [];
+
+  try {
+    variablesIn = JSON.parse(s);
+  } catch(e) {
+    console.log(ERROR);
+    return;
+  }
+
+  async.each(variablesIn, (variableIn, next) => {
+
+    let o = {};
+
+    let key = variableIn.key;
+    //let wheres = variableIn.wheres;
+
+    let sStartDate = variableIn.start_date;
+    let sFinalDate = variableIn.final_date;
+
+    let dStart = new Date(sStartDate);
+    let dFinal = new Date(sFinalDate);
+
+    let tFinal = dFinal.getTime();
+    let tAvg = variableIn.avg;
+
+    let wheres = [];
+    let tFDate = dStart.getTime();
+
+    while (tFDate < tFinal) {
+      let tSDate = tFDate
+      tFDate = tFDate + tAvg
+
+      let where = {
+        gte: tSDate,
+        lt: tFDate
+      }
+
+      wheres.push(where);
+    }
+
+
+    let wheresJSON = [];
+    let size = wheres.length;
+    for (let i = 0; i < size; i++) {
+      let w = wheres[i]
+      let tables = getTablesForDates(variableIn.alias, w.gte, w.lt)
+
+      let start = getDateTimeFormat(w.gte)
+      let final = getDateTimeFormat(w.lt)
+
+      let wJSON = {
+        gte: start,
+        lt: final,
+        tables: tables
+			}
+
+      wheresJSON.push(wJSON);
+    }
+
+    o[key] = (fun) => {
+      const connection = mysql.createConnection({
+        host: oJSON.DB_HOST_RECODS,
+        user: oJSON.DB_USER_RECODS,
+        password: oJSON.DB_PWD_RECODS,
+        database: oJSON.DB_NAME_RECODS,
+        timezone: 'Z',
+        multipleStatements: true
+      });
+
+      async.waterfall([
+        (fn) => {
+          connection.connect((err) => {
+            if (err) {
+              console.error('error connecting:' + err.stack);
+              fn(true)
+              return;
+            }
+
+            fn();
+            return;
+          });
+        },
+        (fn) => {
+          let qs = {};
+          for (let i = 0; i < wheresJSON.length; i++) {
+            const where = wheresJSON[i];
+            qs[i] = (f) => {
+
+              let table = where.tables[0];
+
+              let queryMin = `SELECT * FROM ${table} WHERE timestamp >= ? AND timestamp < ? ORDER BY value LIMIT 1;`;
+              let queryMax = `SELECT * FROM ${table} WHERE timestamp >= ? AND timestamp < ? ORDER BY value DESC LIMIT 1;`;
+              let queryAVG = `SELECT AVG(value) AS avg FROM ${table} WHERE timestamp >= ? AND timestamp < ? LIMIT 1`;
+
+              async.parallel({
+                'min': (cb) => {
+                  connection.query(queryMin, [where.gte, where.lt], (err, results, fields) => {
+                    if (err) {
+                      cb(null, false);
+                      return;
+                    }
+
+                    if (results.length == 0) {
+                      cb(null, false);
+                      return;
+                    }
+
+                    cb(null, results[0]);
+                    return;
+                  });
+                },
+                max: (cb) => {
+                  connection.query(queryMax, [where.gte, where.lt], (err, results, fields) => {
+                    if (err) {
+                      cb(null, false);
+                      return;
+                    }
+
+                    if (results.length == 0) {
+                      cb(null, false);
+                      return;
+                    }
+
+                    cb(null, results[0]);
+                    return;
+                  });
+                },
+                avg: (cb) => {
+                  connection.query(queryAVG, [where.gte, where.lt], (err, results, fields) => {
+                    if (err) {
+                      cb(null, []);
+                      return;
+                    }
+
+                    if (results.length == 0) {
+                      cb(null, false);
+                      return;
+                    }
+
+                    let r = results[0];
+                    let gte = new Date(where.gte);
+                    let lt = new Date(where.lt);
+
+                    let vGte = gte.getTime();
+                    let vLt = lt.getTime();
+
+                    let diff = vLt - vGte;
+                    let add = diff / 2;
+
+                    let ts = vGte + add;
+                    let timestamp = new Date(ts);
+
+                    let avg = {
+                      value: r.avg,
+                      timestamp: timestamp
+                    }
+
+                    cb(null, avg);
+                    return;
+                  });
+                },
+              }, (err, json) => {
+                let rows = [];
+
+                let rMin = json.min;
+                let rMax = json.max;
+                let rAvg = json.avg;
+
+                let timeMin = 0;
+                let timeMax = 0;
+                let timeAvg = 0;
+
+                if (rMin) {
+                  timeMin = rMin.timestamp.getTime();
+                }
+
+                if (rMax) {
+                  timeMax = rMax.timestamp.getTime();
+                }
+
+                if (rAvg) {
+                  timeAvg = rAvg.timestamp.getTime();
+                }
+
+                if (timeMin < timeMax) {
+                  let insertAvg = false;
+
+                  if (rMin) {
+                    if (timeMin < timeAvg) {
+                      rows.push(rMin);
+                    } else {
+                      if (rAvg) {
+                        rows.push(rAvg)
+                      }
+
+                      rows.push(rMin);
+                      insertAvg = true
+                    }
+                  }
+
+                  if (rMax) {
+                    if (!insertAvg) {
+                      if (timeMax < timeAvg) {
+                        rows.push(rMax);
+
+                        if (rAvg) {
+                          rows.push(rAvg);
+                        }
+
+                      } else {
+                        if (rAvg) {
+                          rows.push(rAvg)
+                        }
+
+                        rows.push(rMax);
+                      }
+
+                    } else {
+                      rows.push(rMax)
+                    }
+                  }
+
+                } else {
+                  let insertAvg = false;
+
+                  if (rMax) {
+                    if (timeMax < timeAvg) {
+                      rows.push(rMax);
+                    } else {
+                      if (rAvg) {
+                        rows.push(rAvg)
+                      }
+
+                      rows.push(rMax);
+                      insertAvg = true
+                    }
+                  }
+
+                  if (rMin) {
+                    if (!insertAvg) {
+                      if (timeMin < timeAvg) {
+                        rows.push(rMin);
+
+                        if (rAvg) {
+                          rows.push(rAvg);
+                        }
+
+                      } else {
+                        if (rAvg) {
+                          rows.push(rAvg);
+                        }
+
+                        rows.push(rMin);
+                      }
+
+                    } else {
+                      rows.push(rMin)
+                    }
+                  }
+                }
+
+                f(null, rows)
+              });
+            };
+          }
+
+          async.parallel(qs, (err, r) => {
+            let res = [];
+
+            for (let i = 0; i < wheres.length; i++) {
+              let rows = r[i];
+
+              for (let j = 0; j < rows.length; j++) {
+                const row = rows[j];
+                let o = {
+                  value: row.value,
+                  timestamp: row.timestamp
+                };
+
+                if (row.id) o.id = row.id;
+
+                res.push(o);
+              }
+            }
+
+            fn(null, res);
+          });
+        },
+        (results, fn) => {
+          connection.end(() => {
+            connection.destroy();
+            fn(null, results);
+            return;
+          });
+        }
+      ], (err, results) => {
+        if (err) {
+          fun(null, []);
+          return;
+        }
+
+        fun(null, results);
+        return;
+      });
+    };
+
+    if (_.isEmpty(o)) {
+      variablesOut[key] = [];
+      next();
+      return;
+    }
+
+    async.parallel(o, (err, results) => {
+      variablesOut[key] = results[key];
+      next();
+      return;
+    });
+
+  }, () => {
+    let variables = [];
+    for (const key in variablesOut) {
+      if (variablesOut.hasOwnProperty(key)) {
+        const records = variablesOut[key];
+        let o = {
+          variable: key,
+          records: records
+        };
+
+        variables.push(o);
+      }
+    }
+
+    let s = JSON.stringify(variables);
+    console.log(s);
+  });
+
+} else {
+  console.log(ERROR);
+  return;
+}
+
+function getDateTimeFormat(ns) {
+  let str = 'N/A';
+
+  let date = new Date(ns);
+
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  if (month < 10) {
+    month = `0${month}`;
+  }
+
+  if (day < 10) {
+    day = `0${day}`;
+  }
+
+  let hour = date.getHours();
+  let min = date.getMinutes();
+  let sec = date.getSeconds();
+
+  if (hour < 10) {
+    hour = `0${hour}`;
+  }
+
+  if (min < 10) {
+    min = `0${min}`;
+  }
+
+  if (sec < 10) {
+    sec = `0${sec}`;
+  }
+
+  str = `${year}-${month}-${day} ${hour}:${min}:${sec}`;
+
+  return str
+}
+
+function getTablesForDates(alias, nsStart, nsFinal) {
+  let tables = []
+
+  let start = new Date(nsStart);
+  let final = new Date(nsFinal);
+
+  let date = start.getTime();
+  let tFinal = final.getTime();
+
+  let before = date < tFinal;
+
+  while(before) {
+    let d = new Date(date);
+    let year = d.getFullYear();
+
+		let m = '';
+		let month = d.getMonth() + 1
+		if (month < 10) {
+      m = `0${month}`
+    } else {
+      m = `${month}`
+    }
+
+    let s = `${alias}_${m}_${year}`;
+    tables.push(s);
+
+    let insert = d.getMonth() + 1;
+    d.setMonth(insert);
+
+    date = d.getTime();
+
+    before = date < tFinal;
+  }
+
+  return tables
+}

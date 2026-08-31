@@ -1,0 +1,76 @@
+.paro {
+  margin-top: 3em;
+  position: relative;
+  text-align: center;
+}
+.paro .info {
+  padding: 2em 2em 3em 2em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+.paro .info h5 {
+  text-transform: uppercase;
+  font-weight: 200;
+}
+.paro .panic {
+  text-align: center;
+  padding: 3.0em 1em;
+  background: rgba(0, 0, 0, 0.2);
+  color: #d9d9d9;
+}
+.paro .panic p {
+  font-weight: 200;
+  line-height: 0.4em;
+  font-size: 1.1em;
+}
+.paro .btn_paro {
+  margin-bottom: 4em;
+  cursor: pointer;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #aa1d1f;
+  border: 1em solid rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -ms-transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.paro .btn_paro i {
+  font-size: 9em;
+  color: #fff;
+  text-shadow: 0 0 0.2em rgba(255, 255, 255, 0.7);
+}
+.paro .btn_paro:hover {
+  background: #94191b;
+}
+.paro input:not([type]),
+.paro input[type=text]:not(.browser-default),
+.paro input[type=password]:not(.browser-default),
+.paro input[type=email]:not(.browser-default),
+.paro input[type=url]:not(.browser-default),
+.paro input[type=time]:not(.browser-default),
+.paro input[type=date]:not(.browser-default),
+.paro input[type=datetime]:not(.browser-default),
+.paro input[type=datetime-local]:not(.browser-default),
+.paro input[type=tel]:not(.browser-default),
+.paro input[type=number]:not(.browser-default),
+.paro input[type=search]:not(.browser-default),
+.paro textarea.materialize-textarea {
+  color: #fff !important;
+  width: 96%;
+  border: none;
+  border-bottom: 1px solid #808080 !important;
+  padding: 0 0.5em;
+}
+.paro .caret {
+  color: #fff !important;
+}

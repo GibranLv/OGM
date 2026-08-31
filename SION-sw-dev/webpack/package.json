@@ -1,0 +1,38 @@
+{
+  "name": "webpack-preact",
+  "version": "1.0.0",
+  "description": "Entorno de desarrollo usando preact",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "@JamsMendez",
+  "license": "ISC",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
+  "dependencies": {
+    "async": "^3.2.0",
+    "babel-loader": "^8.2.2",
+    "konva": "^7.2.4",
+    "mathjs": "^9.2.0",
+    "preact": "^10.5.12",
+    "preact-compat": "^3.19.0",
+    "underscore": "^1.12.0",
+    "webpack": "^5.24.1",
+    "webpack-cli": "^4.5.0",
+    "websocket": "^1.0.33"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.1",
+    "@babel/plugin-transform-react-jsx": "^7.12.17",
+    "@babel/preset-env": "^7.13.5",
+    "@babel/preset-react": "^7.12.13"
+  }
+}

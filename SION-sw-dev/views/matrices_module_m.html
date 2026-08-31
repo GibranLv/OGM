@@ -1,0 +1,112 @@
+{{ define "css" }}
+
+<script>
+	var WARNING_SOUND = '/static/media/warning.mp3'
+	var DANGER_SOUND = '/static/media/danger.mp3'
+	var TIMEOUT_SOUND = '/static/media/timeout.mp3'
+
+	var AUDIO = {}
+
+	AUDIO[DANGER_SOUND] = document.createElement('audio')
+	AUDIO[DANGER_SOUND].src = DANGER_SOUND
+	AUDIO[DANGER_SOUND].loop = true
+	AUDIO[DANGER_SOUND].pause()
+
+	AUDIO[WARNING_SOUND] = document.createElement('audio')
+	AUDIO[WARNING_SOUND].src = WARNING_SOUND
+	AUDIO[WARNING_SOUND].loop = true
+	AUDIO[WARNING_SOUND].pause()
+
+	AUDIO[TIMEOUT_SOUND] = document.createElement('audio')
+	AUDIO[TIMEOUT_SOUND].src = TIMEOUT_SOUND
+	AUDIO[TIMEOUT_SOUND].loop = true
+	AUDIO[TIMEOUT_SOUND].pause()
+
+	var AUDIO_PAUSED = {}
+
+	AUDIO_PAUSED[DANGER_SOUND] = true
+	AUDIO_PAUSED[WARNING_SOUND] = true
+	AUDIO_PAUSED[TIMEOUT_SOUND] = true
+</script>
+
+<link rel="stylesheet" type="text/css" href="/static/css/ogm_v3.1.css" media="all" />
+<link rel="stylesheet" type="text/css" href="/static/css/popover.css" media="all" />
+
+<style>
+	.DashInterNone {
+		margin-top: 15px !important;
+	}
+
+	.table-static thead tr th {
+		position: sticky;
+		z-index: 98;
+		top: 178px;
+		background: #014689;
+	}
+
+	.table-static thead tr:first-child th {
+		position: sticky;
+		z-index: 98;
+		top: 150px;
+		background: #014689;
+	}
+</style>
+
+{{ end }} {{define "js"}}
+<script>
+	var SYSTEM_HOST = window.location.host;
+	var INSERT_CONVERSION = false;
+
+	var URLWS = "{{.URLWS}}";
+	var URLWSA = "{{.URLWSA}}";
+
+	var MatrixID = {{.MatrixID }};
+
+	var USERS_FILTERS = [
+		'Manual Romero',
+		'Monitoreo',
+		'Administrador SCADA'
+	];
+
+	var USERS_P_FILTERS = [
+		'Produccion'
+	];
+
+	if (SYSTEM_HOST) {
+		if (SYSTEM_HOST == 'sepec.technotex.com') {
+			if (MatrixID == 2) {
+				if (USERS_FILTERS.includes(USER_NAME)) {
+					MatrixID = "[2,9,12]";
+				}
+
+				if (USERS_P_FILTERS.includes(USER_NAME)) {
+					MatrixID = "[23,9,12]";
+				}
+			}
+
+			if (MatrixID == 17) {
+				if (USER_NAME === 'Administrador SCADA') {
+					MatrixID = "[17,18,19]";
+				}
+			}
+		}
+	}
+
+	var RT = {{.RT }};
+	var CHART_THEME = {{.ChartTheme }};
+	var COMMENT_COLUMN = {{.CommentColumn }};
+
+	var CP_MAPS = {};
+	var CP_MAPS_II = {};
+</script>
+<script src="/static/js/js.cookie.min.js"></script>
+<script src="/static/js/math.min.js"></script>
+
+<script src="/static/js/moment.min.js"></script>
+<script src="/static/js/moment-timezone-with-data-1970-2030.min.js"></script>
+<script src="/static/js/highstock.js"></script>
+<script src="/static/js/boost.js"></script>
+<script src="/static/js/exporting.js"></script>
+<script src="/static/js/export-data.js"></script>
+<script src="/static/js/src-min/matrices_module_m.js"></script>
+{{ end }}

@@ -1,0 +1,336 @@
+#!/usr/bin/env node
+
+'use strict'
+
+const fs = require('fs')
+const path = require('path')
+
+const async = require('async')
+const mysql = require('mysql')
+const _ = require('underscore')
+
+const ERROR = 'error'
+
+let oJSON = {}
+
+try {
+	let src = path.join(__dirname, '..', 'app.config')
+	let data = fs.readFileSync(src)
+	let s = data.toString()
+	oJSON = JSON.parse(s)
+} catch (e) {
+	let src = path.join(__dirname, '..', 'app.config')
+	console.log(src)
+	return
+}
+
+let args = process.argv
+let last = args.length - 1
+
+let variablesOut = {}
+
+if (last > -1) {
+	let sID = args[last]
+	let id = parseInt(sID)
+	if (_.isNaN(id)) {
+		console.log(ERROR)
+		return
+	}
+
+	if (!_.isNumber(id)) {
+		console.log(ERROR)
+		return
+	}
+
+	const connSW = mysql.createConnection({
+		host: oJSON.DB_HOST_SW,
+		user: oJSON.DB_USER_SW,
+		password: oJSON.DB_PWD_SW,
+		database: oJSON.DB_NAME_SW,
+	})
+
+	async.waterfall(
+		[
+			(fn) => {
+				connSW.connect((err) => {
+					if (err) {
+						console.error('error connecting:' + err.stack)
+						fn(true)
+						return
+					}
+
+					fn()
+					return
+				})
+			},
+			(fn) => {
+				let query = `SELECT * FROM records_requests WHERE id = ?;`
+				connSW.query(query, [id], (err, results, fields) => {
+					if (err) {
+						fn(true)
+						return
+					}
+
+					if (results.length == 0) {
+						fn(true)
+						return
+					}
+
+					let result = results[0]
+					let sJSON = result.json
+					fn(null, sJSON)
+				})
+			},
+			(sJSON, fn) => {
+				connSW.end(() => {
+					connSW.destroy()
+					fn(null, sJSON)
+					return
+				})
+			},
+		],
+		(err, sJSON) => {
+			if (err) {
+				console.log(ERROR)
+				return
+			}
+
+			let variablesIn = []
+
+			try {
+				variablesIn = JSON.parse(sJSON)
+			} catch (e) {
+				console.log(ERROR)
+				return
+			}
+
+			async.each(
+				variablesIn,
+				(variableIn, next) => {
+					let o = {}
+
+					let key = variableIn.key
+					let wheres = variableIn.wheres
+					let is_avg = variableIn.is_avg
+
+					let where = variableIn.where
+					let tables = variableIn.tables
+
+					o[key] = (fun) => {
+						const connection = mysql.createConnection({
+							host: oJSON.DB_HOST_RECODS,
+							user: oJSON.DB_USER_RECODS,
+							password: oJSON.DB_PWD_RECODS,
+							database: oJSON.DB_NAME_RECODS,
+							timezone: 'Z',
+							multipleStatements: true,
+						})
+
+						async.waterfall(
+							[
+								(fn) => {
+									connection.connect((err) => {
+										if (err) {
+											console.error('error connecting:' + err.stack)
+											fn(true)
+											return
+										}
+
+										fn()
+										return
+									})
+								},
+								(fn) => {
+									if (!_.isArray(tables)) tables = []
+
+									let rows = []
+
+									async.eachSeries(
+										tables,
+										(table, last) => {
+											let query = `SELECT * FROM ${table} WHERE timestamp >= ? AND timestamp < ? ORDER BY timestamp ASC;`
+
+											connection.query(
+												query,
+												[where.gte, where.lt],
+												(err, results) => {
+													if (err) {
+														last()
+														return
+													}
+
+													if (results.length == 0) {
+														last()
+														return
+													}
+
+													rows = rows.concat(results)
+													last()
+												}
+											)
+										},
+										() => {
+											let sizeRows = rows.length
+											let rowsOut = []
+											let rowsIndex = 0
+
+											let sizeWheres = wheres.length
+											if (sizeWheres > 0) {
+												for (let j = 0; j < sizeWheres; j++) {
+													const whereOne = _.clone(wheres[j])
+
+													let isMax = whereOne.gte.indexOf('ACCUMULATED') > 0
+													if (isMax)
+														whereOne.gte = whereOne.gte.replace(
+															'ACCUMULATED',
+															''
+														)
+
+													let isLast = whereOne.gte.indexOf('YESTERDAY') > 0
+													if (isLast)
+														whereOne.gte = whereOne.gte.replace('YESTERDAY', '')
+
+													let gteString = whereOne.gte.replace(' ', 'T')
+													gteString = `${gteString}Z`
+
+													let ltString = whereOne.lt.replace(' ', 'T')
+													ltString = `${ltString}Z`
+
+													let gteInt = new Date(gteString).getTime()
+													let ltInt = new Date(ltString).getTime()
+													let rowsWhere = []
+
+													for (rowsIndex; rowsIndex < sizeRows; ) {
+														const rowOne = rows[rowsIndex]
+
+														let ts = rowOne.timestamp.getTime()
+
+														if (ts >= ltInt) break
+
+														if (ts >= gteInt && ts < ltInt)
+															rowsWhere.push(rowOne)
+
+														rowsIndex = rowsIndex + 1
+													}
+
+													let valueAvg = 0
+													let timestamp = whereOne.gte
+													let id = 0
+
+													let size = rowsWhere.length
+													if (size == 1) {
+														const r = rowsWhere[0]
+														id = r.id
+														valueAvg = r.value
+													} else if (size > 1) {
+														let vAvg = []
+														for (let i = 0; i < size; i++) {
+															const r = rowsWhere[i]
+															vAvg.push(r.value)
+														}
+
+														if (isMax) {
+															let oAvg = vAvg.sort((a, b) => a - b)
+															let sizeAvg = oAvg.length
+															valueAvg = oAvg[sizeAvg - 1]
+														} else if (isLast) {
+															let sizeAvg = vAvg.length
+															valueAvg = vAvg[sizeAvg - 1]
+														} else if (is_avg) {
+															let sAvg = 0
+															for (let i = 0; i < vAvg.length; i++) {
+																const v = vAvg[i]
+																sAvg = sAvg + v
+															}
+
+															valueAvg = sAvg / vAvg.length
+														}
+													}
+
+													if (_.isNaN(valueAvg) || _.isNull(valueAvg))
+														valueAvg = 0
+
+													timestamp = timestamp.replace(' ', 'T')
+													timestamp = timestamp + 'Z'
+
+													let row = {
+														id: id,
+														v: valueAvg,
+														t: timestamp,
+													}
+
+													rowsOut.push(row)
+												}
+											} else {
+												if (!is_avg) {
+													let size = rows.length
+													for (let i = 0; i < size; i++) {
+														const row = rows[i]
+														rowsOut.push({
+															id: row.id,
+															v: row.value,
+															t: row.timestamp,
+														})
+													}
+												}
+											}
+
+											fn(null, rowsOut)
+										}
+									)
+								},
+								(results, fn) => {
+									connection.end(() => {
+										connection.destroy()
+										fn(null, results)
+										return
+									})
+								},
+							],
+							(err, results) => {
+								if (err) {
+									fun(null, [])
+									return
+								}
+
+								fun(null, results)
+								return
+							}
+						)
+					}
+
+					if (_.isEmpty(o)) {
+						variablesOut[key] = []
+						next()
+						return
+					}
+
+					async.parallel(o, (err, results) => {
+						variablesOut[key] = results[key]
+						next()
+						return
+					})
+				},
+				() => {
+					let variables = []
+					for (const key in variablesOut) {
+						if (variablesOut.hasOwnProperty(key)) {
+							const records = variablesOut[key]
+							let o = {
+								variable: key,
+								records: records,
+							}
+							variables.push(o)
+						}
+					}
+
+					let s = JSON.stringify(variables)
+					console.log(s)
+				}
+			)
+		}
+	)
+} else {
+	console.log(ERROR)
+	return
+}

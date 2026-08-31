@@ -1,0 +1,25 @@
+{{define "css"}}
+  <style>
+    .bodyContent table tr td {
+      font-size: 16px;
+      color: #000;
+      padding: 0px;
+    }
+
+    .bodyContent table tr td span {
+      font-weight: bold;
+    }
+
+    .bodyContentInfo {
+      padding: 0px 5px;
+    }
+
+  </style>
+{{end}}
+
+{{define "js"}}
+  <script>
+    var URLWS = "{{.URLWS}}";
+  </script>
+  <script src="/static/js/src-min/locator_module.js"></script>
+{{end}}

@@ -1,0 +1,66 @@
+#!/usr/bin / env node
+
+'use strict'
+
+const nodemailer = require('nodemailer')
+const ERROR = 'error'
+
+let sendMail = (fromIn, to, subject, html, fn) => {
+	let transporter = nodemailer.createTransport({
+		host: 'mail.technotex.com',
+		secure: false,
+		port: 587,
+		auth: {
+			user: 'support_ogm@technotex.com',
+			pass: 'Ttxgrup.230sO'
+		},
+		tls: {
+			rejectUnauthorized: false
+		}
+	})
+
+	let message = {
+		from: fromIn,
+		to: to,
+		subject: subject,
+		html: html
+	}
+
+	transporter.sendMail(message, (err, info) => {
+		let message = 'N/A'
+		if (err) {
+			message = `Error: ${err.message}`
+		} else {
+			message = `Success: ${info.response}`
+		}
+		if (process.env.NODE_ENV == 'dev') console.log(colors.red(message))
+
+		fn(err)
+		return
+	})
+}
+
+let args = process.argv
+
+let last = args.length - 1
+
+if (last > -1) {
+	let s = args[last]
+	let o = false
+
+	try {
+		o = JSON.parse(s)
+	} catch (e) {
+		console.log(ERROR)
+		return
+	}
+
+	sendMail(o.from, o.to, o.subject, o.html, (err) => {
+		if (!err) return
+
+		console.log(ERROR)
+		return
+	})
+} else {
+	console.log(ERROR)
+}

@@ -1,0 +1,19 @@
+.explorer-file {
+  width: 20%;
+  display: inline-block;
+  font-weight: 600;
+  vertical-align: top;
+  background: #18227b;
+  padding: 0em 0.1em;
+  margin: 0.2em 0.1em;
+}
+
+.explorer-nav-wrapper {
+  line-height: 55px;
+}
+
+.explorer-card {
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  padding: 20px;
+  border: solid 1px #EDEDED;  
+}

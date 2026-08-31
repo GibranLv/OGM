@@ -1,0 +1,16 @@
+.content-variable {
+  background-color: rgb(23, 23, 131);
+  width: 100px;
+  height: 50px;
+  color: white;
+  text-align: center;
+  position: absolute;
+}
+
+.content-variable>table {
+  width: 100%;
+}
+
+.content-variable>table .divisor {
+  border-top: 1px solid rgb(0, 132, 255);
+}

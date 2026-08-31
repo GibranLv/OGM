@@ -1,0 +1,43 @@
+{{ define "css" }}
+<link rel="stylesheet" href="/static/css/chart_panel.css">
+<link rel="stylesheet" href="/static/css/timepicker.css">
+<style>
+  .btn-ttx-graph {
+    padding: 0.2em 1.75em 2.5em 1.75em;
+  }
+</style>
+{{ end }}
+
+{{define "js"}}
+<script>
+  var URLWS = "{{.URLWS}}";
+  var URLWSA = "{{.URLWSA}}";
+  var RT = {{.RT }};
+
+  var VariableID = "{{.VariableID}}";
+  var VariableIsCustom = {{.IsCustom }};
+  var CHART_THEME = {{.ChartTheme }};
+</script>
+<script src="/static/js/js.cookie.min.js"></script>
+<script src="/static/js/math.min.js"></script>
+<script src="/static/js/moment.min.js"></script>
+<script src="/static/js/moment-timezone-with-data-1970-2030.min.js"></script>
+<script src="/static/js/highstock.js"></script>
+<script src="/static/js/boost.js"></script>
+<script src="/static/js/exporting.js"></script>
+<script src="/static/js/export-data.js"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data-2012-2022.min.js"></script>-->
+
+<!--<script src="https://code.highcharts.com/stock/highstock.js"></script>
+  <script src="https://code.highcharts.com/modules/boost.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>-->
+
+{{if eq .VariableID 0}}
+<script src="/static/js/src-min/charts_module.js"></script>
+{{else}}
+<script src="/static/js/src-min/quick_chart.js"></script>
+{{end}}
+{{end}}

@@ -1,0 +1,8 @@
+node_modules
+bin
+
+.DS_Store
+app.config
+README.md
+
+Connector
